@@ -1,0 +1,9 @@
+body {
+  min-height: 100vh; /* Ensures the footer is pushed to the bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+div {
+  flex: 1; /* This will push the footer to the bottom if content is short */
+}
