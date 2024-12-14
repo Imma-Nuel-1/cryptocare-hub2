@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useState, useEffect, useRef } from "react";
+import Hamburger from "hamburger-react";
 
 // Styled components
 const Wrapper = styled.div`
-  position: sticky; /* Makes the navbar sticky */
-  top: 0; /* Sticks to the top of the viewport */
-  z-index: 1000; /* Ensures it stays above other content */
-  background-color: #000000; /* Matches navbar background color */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #000000;
   padding: 1rem;
 `;
 
@@ -16,6 +18,10 @@ const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; /* Added to allow positioning of the hamburger */
+  @media (max-width: 768px) {
+    justify-content: space-between;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -26,7 +32,7 @@ const LogoContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  height: 50 px;
+  height: 50px;
   width: 100px;
   object-fit: contain;
 `;
@@ -43,15 +49,26 @@ const CompanyName = styled.div`
     color: #d3d3d3;
 
     &:hover {
-      color: #d1d5db; /* Tailwind hover:text-gray-300 */
+      color: #d1d5db;
     }
   }
 `;
 
 const NavLinks = styled.div`
-  flex: 0 0 auto; /* Ensures links stay on the right */
   display: flex;
-  gap: 16px; /* Equivalent to Tailwind space-x-4 */
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    display: ${({ isMobile }) => (isMobile ? "flex" : "none")};
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    padding: 1rem 0;
+    align-items: center;
+  }
 
   a {
     text-decoration: none;
@@ -67,7 +84,48 @@ const NavLinks = styled.div`
   }
 `;
 
+const HamburgerWrapper = styled.div`
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20px;
+  width: 25px;
+  position: absolute; /* Set to absolute to position it independently */
+  right: 20px; /* Push it to the right */
+  top: 1px; /* Adjust top distance for centering */
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
 const Navbar = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+  const menuRef = useRef(null); // Ref for menu to detect outside clicks
+
+  // Close the menu if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMobile(false);
+        setOpen(false); // Close hamburger on outside click
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLinkClick = () => {
+    setIsMobile(false); // Close the menu when a link is clicked
+    setOpen(false); // Close hamburger when a link is clicked
+  };
+
   return (
     <Wrapper>
       <NavbarContainer>
@@ -86,13 +144,25 @@ const Navbar = () => {
           <Link to="/">CryptoCare Hub</Link>
         </CompanyName>
 
-        {/* Links on the right */}
-        <NavLinks>
-          <Link to="/">Home</Link>
-          <Link to="/services">Services</Link>
-          <Link to="/about">About Us</Link>
-          <Link to="/contact">Contact</Link>
-          {/* Add more links here */}
+        {/* Hamburger Icon for mobile */}
+        <HamburgerWrapper>
+          <Hamburger toggled={isOpen} toggle={setOpen} color="#3a5add" />
+        </HamburgerWrapper>
+
+        {/* Navbar Links */}
+        <NavLinks ref={menuRef} isMobile={isOpen}>
+          <Link to="/" onClick={handleLinkClick}>
+            Home
+          </Link>
+          <Link to="/services" onClick={handleLinkClick}>
+            Services
+          </Link>
+          <Link to="/about" onClick={handleLinkClick}>
+            About Us
+          </Link>
+          <Link to="/contact" onClick={handleLinkClick}>
+            Contact
+          </Link>
         </NavLinks>
       </NavbarContainer>
     </Wrapper>
