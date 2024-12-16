@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 // Styled Components
 const HeroSection = styled.section`
   height: 100vh;
-  background: url("/Images/Home.jpg") center/cover no-repeat;
+  background-image: url("/Home.jpg");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;

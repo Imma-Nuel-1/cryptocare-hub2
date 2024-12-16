@@ -49,180 +49,180 @@ const WalletSelection = () => {
   const wallets = [
     {
       name: "Trust Wallet",
-      image: "/Images/Trust Wallet.jpeg",
+      image: "/Trust Wallet.jpeg",
     },
     {
       name: "MetaMask",
-      image: "/Images/MetaMask.png",
+      image: "/MetaMask.png",
     },
     {
       name: "Coinbase Wallet",
-      image: "/Images/Coinbase Wallet.png",
+      image: "/Coinbase Wallet.png",
     },
     {
       name: "Binance Chain Wallet",
-      image: "/Images/Binance Chain Wallet.png",
+      image: "/Binance Chain Wallet.png",
     },
     {
       name: "Bybit",
-      image: "/Images/Bybit.png",
+      image: "/Bybit.png",
     },
     {
       name: "Exodus",
-      image: "/Images/Exodus.png",
+      image: "/Exodus.png",
     },
     {
       name: "OKX",
-      image: "/Images/OKX.png",
+      image: "/OKX.png",
     },
     {
       name: "Ledger Live",
-      image: "/Images/Ledger.png",
+      image: "/Ledger.png",
     },
     {
       name: "Trezor Suite",
-      image: "/Images/Trezor.png",
+      image: "/Trezor.png",
     },
     {
       name: "Wallet Connect",
-      image: "/Images/Wallet Connect.png",
+      image: "/Wallet Connect.png",
     },
     {
       name: "Coinomi",
-      image: "/Images/Coinomi.png",
+      image: "/Coinomi.png",
     },
     {
       name: "Atomic Wallet",
-      image: "/Images/Atomic Wallet.jpg",
+      image: "/Atomic Wallet.jpg",
     },
     {
       name: "Bitget Wallet",
-      image: "/Images/Bitget.jpeg",
+      image: "/Bitget.jpeg",
     },
     {
       name: "Tonkeeper",
-      image: "/Images/Tonkeeper.png",
+      image: "/Tonkeeper.png",
     },
     {
       name: "BNB",
-      image: "/Images/BNB.png",
+      image: "/BNB.png",
     },
     {
       name: "Bitcoin.com",
-      image: "/Images/Bitcoin.jpeg",
+      image: "/Bitcoin.jpeg",
     },
     {
       name: "Paxful",
-      image: "/Images/Paxful.png",
+      image: "/Paxful.png",
     },
     {
       name: "Token Pocket",
-      image: "/Images/Token Pocket.jpeg",
+      image: "/Token Pocket.jpeg",
     },
     {
       name: "Formatic",
-      image: "/Images/Formatic.png",
+      image: "/Formatic.png",
     },
     {
       name: "Guarda Wallet",
-      image: "/Images/Guarda.png",
+      image: "/Guarda.png",
     },
     {
       name: "Blockchain.com",
-      image: "/Images/Blockchain.png",
+      image: "/Blockchain.png",
     },
     {
       name: "Portis",
-      image: "/Images/Portis.jpeg",
+      image: "/Portis.jpeg",
     },
     {
       name: "Squalink",
-      image: "/Images/Squalink.png",
+      image: "/Squalink.png",
     },
     {
       name: "Torus",
-      image: "/Images/Torus.png",
+      image: "/Torus.png",
     },
     {
       name: "Authereum",
-      image: "/Images/Authereum.png",
+      image: "/Authereum.png",
     },
     {
       name: "Vechain",
-      image: "/Images/vechain.png",
+      image: "/vechain.png",
     },
     {
       name: "Sacatter",
-      image: "/Images/Scatter.png",
+      image: "/Scatter.png",
     },
     {
       name: "Gemini",
-      image: "/Images/Gemini.png",
+      image: "/Gemini.png",
     },
 
     {
       name: "Stellar",
-      image: "/Images/Stellar.png",
+      image: "/Stellar.png",
     },
     {
       name: "Polkadot",
-      image: "/Images/Polkadot.png",
+      image: "/Polkadot.png",
     },
     {
       name: "Filecoin",
-      image: "/Images/Filecoin.avif",
+      image: "/Filecoin.avif",
     },
     {
       name: "Zengo",
-      image: "/Images/Zengo.jpeg",
+      image: "/Zengo.jpeg",
     },
     {
       name: "Tezos",
-      image: "/Images/Tezos.png",
+      image: "/Tezos.png",
     },
     {
       name: "Theta",
-      image: "/Images/Theta.jpeg",
+      image: "/Theta.jpeg",
     },
     {
       name: "Tron",
-      image: "/Images/Tron.png",
+      image: "/Tron.png",
     },
     {
       name: "SafePal",
-      image: "/Images/Safepal.png",
+      image: "/Safepal.png",
     },
     {
       name: "Cosmos",
-      image: "/Images/Cosmos.png",
+      image: "/Cosmos.png",
     },
     {
       name: "Kava",
-      image: "/Images/Kava.png",
+      image: "/Kava.png",
     },
     {
       name: "Solana",
-      image: "/Images/Solana.png",
+      image: "/Solana.png",
     },
     {
       name: "Ziliqa",
-      image: "/Images/Zilliqa.png",
+      image: "/Zilliqa.png",
     },
     {
       name: "Elrond",
-      image: "/Images/Elrond.png",
+      image: "/Elrond.png",
     },
     {
       name: "Waves",
-      image: "/Images/Waves.png",
+      image: "/Waves.png",
     },
     {
       name: "Icon",
-      image: "/Images/Icon.png",
+      image: "/Icon.png",
     },
     {
       name: "Others",
-      image: "/Images/Others.webp",
+      image: "/Others.webp",
     },
   ];
 
