@@ -1,21 +1,165 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// Styled Components
+const HeroSection = styled.section`
+  height: 100vh;
+  background: url("/Images/Home.jpg") center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+
+  h1 {
+    font-size: 4vw; /* Using viewport width for responsive font size */
+    margin-bottom: 1rem;
+    line-height: 1.2; /* Adjust line height for better spacing */
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 600px; /* Ensures text doesn't stretch too wide on large screens */
+  }
+
+  button {
+    padding: 1rem 2rem;
+    background: #38bdf8;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    &:hover {
+      background: #2563eb;
+    }
+  }
+
+  /* Media queries for smaller screens */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 6vw; /* Smaller font size on smaller screens */
+    }
+
+    p {
+      font-size: 1.2rem;
+      padding: 0 10px; /* Add padding to avoid text touching edges */
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 8vw; /* Even smaller font size on very small screens */
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+`;
+
+const FeaturesSection = styled.section`
+  padding: 40px 20px;
+  background: #f8f9fa;
+  text-align: center;
+
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: left;
+
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  }
+`;
+
+const CryptoSection = styled.section`
+  padding: 40px 20px;
+  background: #fff;
+
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .crypto-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    .crypto-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 200px;
+      text-align: center;
+
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      p {
+        margin: 5px 0;
+        font-size: 1rem;
+        color: #555;
+      }
+    }
+  }
+`;
+
+const Letter = styled.span`
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 0.5s forwards;
+  animation-delay: ${(props) => props.delay};
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
 const Home = () => {
   const [cryptoData, setCryptoData] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // State to track window width
   const navigate = useNavigate();
-
-  // Update window width on resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const fetchCryptoPrices = async () => {
@@ -45,154 +189,54 @@ const Home = () => {
 
   const text = "Restoring Wallets, Rebuilding Trust";
 
-  // Inline styles
-  const heroSectionStyle = {
-    height: "100vh",
-    background: `url("/Images/Home.jpg") center/cover no-repeat`,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    color: "white",
-    padding: "0 20px",
-  };
-
-  const headingStyle = {
-    fontSize: windowWidth <= 480 ? "8vw" : windowWidth <= 768 ? "6vw" : "4vw", // Adjust font size based on window width
-    marginBottom: "1rem",
-    lineHeight: 1.2,
-  };
-
-  const paragraphStyle = {
-    fontSize:
-      windowWidth <= 480 ? "1rem" : windowWidth <= 768 ? "1.2rem" : "1.5rem",
-    marginBottom: "2rem",
-    maxWidth: "600px",
-    padding: windowWidth <= 768 ? "0 10px" : "0",
-  };
-
-  const buttonStyle = {
-    padding: "1rem 2rem",
-    background: "#38bdf8",
-    border: "none",
-    color: "white",
-    fontSize: "1.2rem",
-    borderRadius: "5px",
-    transition: "0.3s ease",
-    cursor: "pointer",
-  };
-
-  const buttonHoverStyle = {
-    background: "#2563eb",
-  };
-
-  const featuresSectionStyle = {
-    padding: "40px 20px",
-    background: "#f8f9fa",
-    textAlign: "center",
-  };
-
-  const featureCardStyle = {
-    background: "white",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    width: windowWidth <= 480 ? "100%" : "300px",
-    textAlign: "left",
-  };
-
-  const cryptoSectionStyle = {
-    padding: "40px 20px",
-    background: "#fff",
-  };
-
-  const cryptoCardStyle = {
-    background: "#f8f9fa",
-    padding: "15px",
-    borderRadius: "10px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    width: windowWidth <= 480 ? "100%" : "200px",
-    textAlign: "center",
-  };
-
   return (
     <>
       {/* Hero Section */}
-      <section style={heroSectionStyle}>
-        <h1 style={headingStyle}>
+      <HeroSection>
+        <h1>
           {text.split("").map((letter, index) => (
-            <span
-              key={index}
-              style={{
-                opacity: 0,
-                transform: "translateY(-20px)",
-                animation: `fadeInUp 0.5s forwards`,
-                animationDelay: `${index * 0.1}s`,
-              }}
-            >
+            <Letter key={index} delay={`${index * 0.1}s`}>
               {letter}
-            </span>
+            </Letter>
           ))}
         </h1>
-        <p style={paragraphStyle}>
+        <p>
           Your trusted partner for wallet recovery, token restoration, and
           secure crypto solutions.
         </p>
-        <button
-          onClick={handleGetStarted}
-          style={{ ...buttonStyle, ":hover": buttonHoverStyle }}
-        >
-          Get Started
-        </button>
-      </section>
+        <button onClick={handleGetStarted}>Get Started</button>
+      </HeroSection>
 
       {/* Features Section */}
-      <section style={featuresSectionStyle}>
+      <FeaturesSection>
         <h2>Our Features</h2>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "20px",
-            marginTop: "20px",
-          }}
-        >
-          <div style={featureCardStyle}>
+        <div className="features-grid">
+          <div className="feature-card">
             <h3>Wallet Recovery</h3>
             <p>Securely recover lost or forgotten crypto wallets.</p>
           </div>
-          <div style={featureCardStyle}>
+          <div className="feature-card">
             <h3>Token Restoration</h3>
             <p>Retrieve your tokens safely with our expert help.</p>
           </div>
-          <div style={featureCardStyle}>
+          <div className="feature-card">
             <h3>Buying & Selling</h3>
             <p>Seamlessly trade cryptocurrencies on our platform.</p>
           </div>
-          <div style={featureCardStyle}>
+          <div className="feature-card">
             <h3>Staking Rewards</h3>
             <p>Earn rewards by staking your favorite cryptocurrencies.</p>
           </div>
         </div>
-      </section>
+      </FeaturesSection>
 
       {/* Crypto Prices Section */}
-      <section style={cryptoSectionStyle}>
+      <CryptoSection>
         <h2>Live Crypto Prices</h2>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "20px",
-            marginTop: "20px",
-          }}
-        >
+        <div className="crypto-list">
           {cryptoData.length > 0 ? (
             cryptoData.map((crypto) => (
-              <div style={cryptoCardStyle} key={crypto.id}>
+              <div className="crypto-card" key={crypto.id}>
                 <h3>{crypto.name}</h3>
                 <p>Price: ${crypto.current_price.toFixed(2)}</p>
                 <p>
@@ -204,7 +248,7 @@ const Home = () => {
             <p>Loading live crypto prices...</p>
           )}
         </div>
-      </section>
+      </CryptoSection>
     </>
   );
 };

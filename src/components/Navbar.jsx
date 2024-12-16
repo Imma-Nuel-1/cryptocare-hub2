@@ -18,14 +18,10 @@ const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative; /* Added to allow positioning of the hamburger */
-  @media (max-width: 768px) {
-    justify-content: space-between;
-  }
+  position: relative;
 `;
 
 const LogoContainer = styled.div`
-  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -38,28 +34,27 @@ const LogoImage = styled.img`
 `;
 
 const CompanyName = styled.div`
-  flex: 1;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  transition: color 0.3s ease;
 
   a {
     text-decoration: none;
     color: #d3d3d3;
-
     &:hover {
       color: #d1d5db;
     }
   }
 `;
 
-const NavLinks = styled.div`
+const NavLinks = styled.div.attrs((props) => ({
+  isMobile: props.isMobile || false, // Prevent prop warning
+}))`
   display: flex;
   gap: 16px;
 
   @media (max-width: 768px) {
-    display: ${({ isMobile }) => (isMobile ? "flex" : "none")};
+    display: ${(props) => (props.isMobile ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
     top: 60px;
@@ -68,6 +63,7 @@ const NavLinks = styled.div`
     background-color: #000;
     padding: 1rem 0;
     align-items: center;
+    z-index: 999;
   }
 
   a {
@@ -86,34 +82,25 @@ const NavLinks = styled.div`
 
 const HamburgerWrapper = styled.div`
   display: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 20px;
-  width: 25px;
-  position: absolute; /* Set to absolute to position it independently */
-  right: 20px; /* Push it to the right */
-  top: 1px; /* Adjust top distance for centering */
-
   @media (max-width: 768px) {
     display: flex;
+    cursor: pointer;
   }
 `;
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const menuRef = useRef(null); // Ref for menu to detect outside clicks
+  const menuRef = useRef(null);
 
-  // Close the menu if clicked outside
+  // Close menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMobile(false);
-        setOpen(false); // Close hamburger on outside click
+        setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
@@ -121,15 +108,16 @@ const Navbar = () => {
     };
   }, []);
 
+  // Close menu when link is clicked
   const handleLinkClick = () => {
-    setIsMobile(false); // Close the menu when a link is clicked
-    setOpen(false); // Close hamburger when a link is clicked
+    setIsMobile(false);
+    setOpen(false);
   };
 
   return (
     <Wrapper>
       <NavbarContainer>
-        {/* Logo on the left */}
+        {/* Logo */}
         <LogoContainer>
           <Link to="/">
             <LogoImage
@@ -139,18 +127,26 @@ const Navbar = () => {
           </Link>
         </LogoContainer>
 
-        {/* Company Name in the center */}
+        {/* Company Name */}
         <CompanyName>
           <Link to="/">CryptoCare Hub</Link>
         </CompanyName>
 
-        {/* Hamburger Icon for mobile */}
+        {/* Hamburger Menu */}
         <HamburgerWrapper>
-          <Hamburger toggled={isOpen} toggle={setOpen} color="#3a5add" />
+          <Hamburger
+            toggled={isOpen}
+            toggle={() => {
+              setOpen(!isOpen);
+              setIsMobile(!isMobile);
+            }}
+            color="#3a5add"
+            aria-label={isOpen ? "Close menu" : "Open menu"} // Accessibility
+          />
         </HamburgerWrapper>
 
-        {/* Navbar Links */}
-        <NavLinks ref={menuRef} isMobile={isOpen}>
+        {/* Navigation Links */}
+        <NavLinks ref={menuRef} isMobile={isMobile}>
           <Link to="/" onClick={handleLinkClick}>
             Home
           </Link>
