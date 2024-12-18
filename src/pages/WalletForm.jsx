@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import emailjs from "emailjs-com"; // Ensure this is installed via `npm install emailjs-com`
+// import emailjs from "emailjs-com"; // Ensure this is installed via `npm install emailjs-com`
 
 const FormContainer = styled.div`
   padding: 40px;

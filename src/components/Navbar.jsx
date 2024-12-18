@@ -82,36 +82,46 @@ const NavLinks = styled.div.attrs((props) => ({
 
 const HamburgerWrapper = styled.div`
   display: none;
+
   @media (max-width: 768px) {
     display: flex;
     cursor: pointer;
+    z-index: 1001; // Ensure it's on top
+    align-items: center;
+    justify-content: center; // Center the hamburger button
   }
 `;
 
 const Navbar = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isOpen, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // Mobile state
+  const [isOpen, setIsOpen] = useState(false); // Menu open/close state
   const menuRef = useRef(null);
 
-  // Close menu on outside click
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsMobile(false);
-        setOpen(false);
+        setIsOpen(false); // Close the menu if clicking outside
+        setIsMobile(false); // Hide the mobile menu
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
 
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  // Close menu when link is clicked
+  // Handle Hamburger button click (toggle menu)
+  const handleHamburgerClick = () => {
+    setIsOpen((prev) => !prev); // Toggle open/close for the menu
+    setIsMobile((prev) => !prev); // Toggle mobile visibility of links
+  };
+
+  // Handle clicking a link (close menu)
   const handleLinkClick = () => {
-    setIsMobile(false);
-    setOpen(false);
+    setIsOpen(false); // Close the menu on link click
+    setIsMobile(false); // Close the mobile view of the menu
   };
 
   return (
@@ -134,15 +144,14 @@ const Navbar = () => {
 
         {/* Hamburger Menu */}
         <HamburgerWrapper>
-          <Hamburger
-            toggled={isOpen}
-            toggle={() => {
-              setOpen(!isOpen);
-              setIsMobile(!isMobile);
-            }}
-            color="#3a5add"
-            aria-label={isOpen ? "Close menu" : "Open menu"} // Accessibility
-          />
+          {!isOpen && (
+            <Hamburger
+              toggled={isOpen}
+              toggle={handleHamburgerClick}
+              color="#3a5add"
+              aria-label="Open menu" // Accessibility
+            />
+          )}
         </HamburgerWrapper>
 
         {/* Navigation Links */}

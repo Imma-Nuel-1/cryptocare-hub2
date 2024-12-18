@@ -9,6 +9,10 @@ const FooterContainer = styled.footer`
   text-align: center;
   min-height: 100px;
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0;
+  }
 `;
 
 const FooterContent = styled.div`
@@ -18,6 +22,10 @@ const FooterContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `;
 
 const FooterLinks = styled.div`
@@ -25,6 +33,11 @@ const FooterLinks = styled.div`
   justify-content: center;
   gap: 3rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const FooterLink = styled.a`
@@ -36,12 +49,21 @@ const FooterLink = styled.a`
   &:hover {
     color: #2563eb;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const Copyright = styled.div`
   margin-top: 1.5rem;
   font-size: 0.875rem;
   color: #94a3b8;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    margin-top: 1rem;
+  }
 `;
 
 const Footer = () => {

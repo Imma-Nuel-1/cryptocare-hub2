@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import emailjs from "emailjs-com"; // Install via `npm install emailjs-com`
+// import emailjs from "emailjs-com"; // Install via `npm install emailjs-com`
 
 // Styled Components
 const ContactContainer = styled.section`
